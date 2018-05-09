@@ -11,9 +11,11 @@
 #import "AFDownLoadHelper.h"
 #import <AVFoundation/AVFoundation.h>
 ///这个视频 很小
-//#define URL @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=2066bfe5c00c4263a8549f7dcca08cb8&line=0"
+#define URL @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=2066bfe5c00c4263a8549f7dcca08cb8&line=0"
+/// 手机拍摄视频
+//#define URL @"http://pic.zuanlinghua.com/video/VID_20180507_111140.mp4"
 ///这个是视频 200 多兆的
-#define URL @"http://pic.zuanlinghua.com/%5BFZSD%5D%5BKiratto_Pri-chan%5D%5B001%5D%5BGB%5D%5B720P%5D%5Bx264_AAC%5D.mp4"
+//#define URL @"http://pic.zuanlinghua.com/%5BFZSD%5D%5BKiratto_Pri-chan%5D%5B001%5D%5BGB%5D%5B720P%5D%5Bx264_AAC%5D.mp4"
 
 #define FILEPATH [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"download/temp"]
 #define GCD_ONCE(Block) static dispatch_once_t onceToken; dispatch_once(&onceToken, Block);
@@ -54,7 +56,8 @@
     [self.view addSubview:showLabel];
 }
 
-//视频转码  问题：当视频过大时  CPU 消耗的特别厉害 500% 真机直接转码失败 模拟器还能坚持。风扇 呼呼呼呼呼 转
+// 2018/4/17 视频转码  问题：当视频过大时  CPU 消耗的特别厉害 500% 真机直接转码失败 模拟器还能坚持。风扇 呼呼呼呼呼 转
+/// 2018-5-7 测试了几次 如果是用手机拍摄的视频 转换效率还是很高的 150M（1分钟左右的视频） 大概 10秒左右能转化出来 可能和视频时长有关吧。
 - (void)videoTranscoding:(NSString *)filePath{
     NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
     //转换后的视频地址
@@ -107,6 +110,7 @@
                     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
                     /// 将视频保存到 相册
                     [self saveVideo:output];
+                    showLabel.text = [NSString stringWithFormat:@"转码进度 1.0"];
                     break;
                 }
                 case AVAssetExportSessionStatusFailed:

@@ -56,7 +56,7 @@
 
 - (NSURLSessionDataTask *)downloadURL:(NSString *) downloadURL progress:(void (^)(DownLoadModel * downloadModel))progress success:(void (^)(NSString *filePath))success failure:(void(^)(NSError *error))faliure{
     
-    NSString *fileName = [TEMPFILEPATH stringByAppendingPathComponent:@"234.MOV"];
+    NSString *fileName = [TEMPFILEPATH stringByAppendingPathComponent:@"234.mp4"];
     
     fileCompleteSize = [self fileSizeForPath:fileName];
     NSInteger fileCompleteSize2 = fileCompleteSize;
